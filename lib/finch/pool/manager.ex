@@ -101,7 +101,8 @@ defmodule Finch.Pool.Manager do
   defp do_get_pool(registry_name, pool, start_pool?, opts) do
     pool_name = Finch.Pool.to_name(pool)
 
-    case Registry.lookup(registry_name, pool_name) do
+    case Registry.lookup(registry_name, pool_name)
+         |> IO.inspect(label: inspect({pool_name, self(), :lookup})) do
       [] when start_pool? ->
         maybe_start_pool(registry_name, pool, pool_name, opts)
 
